@@ -7,19 +7,19 @@ import (
 )
 
 func TestCreation(t *testing.T) {
-	request := CreationRequest{width: 2, height: 5}
+	request := CreationRequest{Width: 2, Height: 5}
 
 	result := Create(request)
 
-	assert.Equal(t, 2, len(result.cells))
-	assert.Equal(t, 5, len(result.cells[0]))
+	assert.Equal(t, 2, len(result.Cells))
+	assert.Equal(t, 5, len(result.Cells[0]))
 }
 
 func TestCreationWithWalls(t *testing.T) {
 	request := CreationRequest{3, 3, []Position{{1, 1}}}
 	world := Create(request)
 
-	_, result := world.cells[1][1].(Wall)
+	_, result := world.Cells[1][1].(Wall)
 
 	assert.True(t, result)
 }
@@ -39,7 +39,7 @@ func TestPrintMap(t *testing.T) {
 //only for visual testing
 func PrintMap(world World) {
 	var lastIndex = 0
-	for line, cell := range world.cells {
+	for line, cell := range world.Cells {
 		if line != lastIndex {
 			fmt.Print("\n")
 			lastIndex = line

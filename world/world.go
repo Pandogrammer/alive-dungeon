@@ -1,39 +1,39 @@
 package world
 
 type Position struct {
-	x int
-	y int
+	X int
+	Y int
 }
 
 type CreationRequest struct {
-	width  int
-	height int
-	walls  []Position
+	Width  int
+	Height int
+	Walls  []Position
 }
 
 type Cell interface{}
 type Wall Cell
 
 type World struct {
-	cells [][]Cell
+	Cells    [][]Cell
 }
 
 func Create(request CreationRequest) World {
-	cells := make([][]Cell, request.width)
-	for i := 0; i < request.width; i++ {
-		cells[i] = make([]Cell, request.height)
+	cells := make([][]Cell, request.Width)
+	for i := 0; i < request.Width; i++ {
+		cells[i] = make([]Cell, request.Height)
 	}
 	cells = generateWalls(cells, request)
-	return World{cells: cells}
+	return World{Cells: cells}
 }
 
 func generateWalls(cells [][]Cell, request CreationRequest) [][]Cell {
-	if !(len(request.walls) > 0) {
+	if !(len(request.Walls) > 0) {
 		return cells
 	}
 
-	for _, w := range request.walls {
-		cells[w.x][w.y] = new(Wall)
+	for _, w := range request.Walls {
+		cells[w.X][w.Y] = new(Wall)
 	}
 
 	return cells
