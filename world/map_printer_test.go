@@ -11,7 +11,7 @@ func TestPrintMap(t *testing.T) {
 		{2, 2},
 		{2, 1},
 	}
-	request := CreationRequest{3, 3, walls}
+	request := CreationRequest{Width: 3, Height: 3, Walls: walls}
 	world := Create(request)
 
 	PrintMap(world)
@@ -28,10 +28,10 @@ func PrintMap(world World) {
 
 		for _, x := range cell {
 			switch x.(type) {
-			case Wall:
+			case *Wall:
 				fmt.Printf("#")
-			default:
-				fmt.Printf("·")
+			case *Empty:
+				fmt.Printf(".")
 			}
 		}
 	}

@@ -15,7 +15,7 @@ func TestCreation(t *testing.T) {
 }
 
 func TestCreationWithWalls(t *testing.T) {
-	request := CreationRequest{3, 3, []Position{{1, 1}}}
+	request := CreationRequest{Width: 3, Height: 3, Walls: []Position{{1, 1}}}
 	world := Create(request)
 
 	_, result := world.Cells[1][1].(Wall)
@@ -24,8 +24,9 @@ func TestCreationWithWalls(t *testing.T) {
 }
 
 func TestAddWall(t *testing.T) {
-	request := CreationRequest{3, 3, nil}
+	request := CreationRequest{Width: 3, Height: 3}
 	world := Create(request)
+	world.AddWall(Position{1, 1})
 
 	_, result := world.Cells[1][1].(Wall)
 

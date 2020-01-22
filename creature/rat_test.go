@@ -8,7 +8,7 @@ import (
 var world
 
 func init(){
-	request := w.CreationRequest{3, 3, []w.Position{{1, 1}}}
+	request := w.CreationRequest{Width: 3, Height: 3, Walls: []w.Position{{1, 1}}}
 	world = w.Create(request)
 }
 

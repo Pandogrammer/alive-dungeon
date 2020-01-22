@@ -1,26 +1,26 @@
 package game
 
 import (
-	"testing"
-	w "alive-dungeon/world"
 	c "alive-dungeon/creature"
+	w "alive-dungeon/world"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
-func TestAddCreature(t *testing.T) {
-	walls := []w.Position{
-		{1, 1},
-		{2, 2},
-		{2, 1},
-	}
-	request := w.CreationRequest{3, 3, walls}
-	world := w.Create(request)
-	creature := c.Creature{}
+func TestCreate(t *testing.T) {
+	world := w.Create(w.CreationRequest{Width: 3, Height: 3})
 
-	AddCreature(world, creature, w.Position{2, 3})
+	game := Create(world)
 
-	//assert
+	assert.Equal(t, game.World, world)
 }
 
-func AddCreature(world w.World, creature c.Creature, position w.Position) {
+func TestAddCreature(t *testing.T) {
+	world := w.Create(w.CreationRequest{Width: 3, Height: 3})
+	creature := c.Creature{}
+	game := Create(world)
 
+	game = game.AddCreature(creature, w.Position{X: 2, Y: 3})
+
+	assert.Equal(t, game.Creatures[0], creature)
 }
