@@ -1,7 +1,6 @@
 package world
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -24,35 +23,11 @@ func TestCreationWithWalls(t *testing.T) {
 	assert.True(t, result)
 }
 
-func TestPrintMap(t *testing.T) {
-	walls := []Position{
-		{1, 1},
-		{2, 2},
-		{2, 1},
-	}
-	request := CreationRequest{3, 3, walls}
+func TestAddWall(t *testing.T) {
+	request := CreationRequest{3, 3, nil}
 	world := Create(request)
 
-	PrintMap(world)
-}
+	_, result := world.Cells[1][1].(Wall)
 
-//only for visual testing
-func PrintMap(world World) {
-	var lastIndex = 0
-	for line, cell := range world.Cells {
-		if line != lastIndex {
-			fmt.Print("\n")
-			lastIndex = line
-		}
-
-		for _, x := range cell {
-			switch x.(type) {
-			case Wall:
-				fmt.Printf("#")
-			default:
-				fmt.Printf("·")
-			}
-		}
-	}
-	fmt.Println()
+	assert.True(t, result)
 }
