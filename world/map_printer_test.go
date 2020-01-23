@@ -27,10 +27,10 @@ func PrintMap(world World) {
 		}
 
 		for _, x := range cell {
-			switch x.(type) {
-			case *Wall:
+			switch x {
+			case Wall:
 				fmt.Printf("#")
-			case *Empty:
+			case Empty:
 				fmt.Printf(".")
 			}
 		}

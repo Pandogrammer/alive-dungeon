@@ -7,14 +7,19 @@ import (
 
 type Game struct {
 	World     w.World
-	Creatures []c.Creature
+	Creatures []SpawnedCreature
 }
 
-func (game Game) AddCreature(creature c.Creature, position w.Position) Game {
+type SpawnedCreature struct {
+	Creature c.Creature
+	Position w.Position
+}
+
+func (game Game) AddCreature(creature SpawnedCreature) Game {
 	game.Creatures = append(game.Creatures, creature)
 	return game
 }
 
 func Create(world w.World) Game {
-	return Game{World: world, Creatures: []c.Creature{}}
+	return Game{World: world, Creatures: []SpawnedCreature{}}
 }
