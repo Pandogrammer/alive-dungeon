@@ -10,8 +10,10 @@ func TestPrintMap(t *testing.T) {
 		{1, 1},
 		{2, 2},
 		{2, 1},
+		{6, 1},
+		{4, 8},
 	}
-	request := CreationRequest{Width: 3, Height: 3, Walls: walls}
+	request := CreationEvent{Width: 10, Height: 10, Walls: walls}
 	world := Create(request)
 
 	PrintMap(world)
@@ -20,14 +22,14 @@ func TestPrintMap(t *testing.T) {
 //only for visual testing
 func PrintMap(world World) {
 	var lastIndex = 0
-	for line, cell := range world.Cells {
+	for line, column := range world.Cells {
 		if line != lastIndex {
 			fmt.Print("\n")
 			lastIndex = line
 		}
 
-		for _, x := range cell {
-			switch x {
+		for _, cell := range column {
+			switch cell {
 			case Wall:
 				fmt.Printf("#")
 			case Empty:

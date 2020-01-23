@@ -5,7 +5,7 @@ type Position struct {
 	Y int
 }
 
-type CreationRequest struct {
+type CreationEvent struct {
 	Width  int
 	Height int
 	Walls  []Position
@@ -26,7 +26,7 @@ func (w World) AddWall(position Position) {
 	w.Cells[position.Y][position.X] = Wall
 }
 
-func Create(request CreationRequest) World {
+func Create(request CreationEvent) World {
 	cells := make([][]Cell, request.Width)
 	for i := 0; i < request.Width; i++ {
 		cells[i] = make([]Cell, request.Height)
@@ -38,13 +38,13 @@ func Create(request CreationRequest) World {
 	return World{Cells: cells}
 }
 
-func generateWalls(cells [][]Cell, request CreationRequest) [][]Cell {
+func generateWalls(cells [][]Cell, request CreationEvent) [][]Cell {
 	if !(len(request.Walls) > 0) {
 		return cells
 	}
 
 	for _, w := range request.Walls {
-		cells[w.X][w.Y] = Wall
+		cells[w.Y][w.X] = Wall
 	}
 
 	return cells

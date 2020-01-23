@@ -14,26 +14,26 @@ const (
 	Left
 )
 
-type MoveRequest struct {
+type MoveEvent struct {
 	Direction       Direction
 	SpawnedCreature g.SpawnedCreature
 }
 
-func Move(request MoveRequest) g.SpawnedCreature {
-	switch request.Direction {
+func Move(event MoveEvent) g.SpawnedCreature {
+	switch event.Direction {
 	case Up :
-		return moveUp(request)
+		return moveUp(event)
 	case Down :
-		return moveDown(request)
+		return moveDown(event)
 	case Left :
-		return moveLeft(request)
+		return moveLeft(event)
 	case Right :
-		return moveRight(request)
+		return moveRight(event)
 	}
-	return request.SpawnedCreature
+	return event.SpawnedCreature
 }
 
-func moveRight(request MoveRequest) g.SpawnedCreature {
+func moveRight(request MoveEvent) g.SpawnedCreature {
 	position := request.SpawnedCreature.Position
 	newPosition := w.Position{X: position.X + 1, Y: position.Y}
 	movedCreature := g.SpawnedCreature{Creature: request.SpawnedCreature.Creature, Position: newPosition}
@@ -41,7 +41,7 @@ func moveRight(request MoveRequest) g.SpawnedCreature {
 	
 }
 
-func moveLeft(request MoveRequest) g.SpawnedCreature {
+func moveLeft(request MoveEvent) g.SpawnedCreature {
 	position := request.SpawnedCreature.Position
 	newPosition := w.Position{X: position.X - 1, Y: position.Y}
 	movedCreature := g.SpawnedCreature{Creature: request.SpawnedCreature.Creature, Position: newPosition}
@@ -49,7 +49,7 @@ func moveLeft(request MoveRequest) g.SpawnedCreature {
 	
 }
 
-func moveDown(request MoveRequest) g.SpawnedCreature {
+func moveDown(request MoveEvent) g.SpawnedCreature {
 	position := request.SpawnedCreature.Position
 	newPosition := w.Position{X: position.X, Y: position.Y + 1}
 	movedCreature := g.SpawnedCreature{Creature: request.SpawnedCreature.Creature, Position: newPosition}
@@ -57,7 +57,7 @@ func moveDown(request MoveRequest) g.SpawnedCreature {
 	
 }
 
-func moveUp(request MoveRequest) g.SpawnedCreature {
+func moveUp(request MoveEvent) g.SpawnedCreature {
 	position := request.SpawnedCreature.Position
 	newPosition := w.Position{X: position.X, Y: position.Y - 1}
 	movedCreature := g.SpawnedCreature{Creature: request.SpawnedCreature.Creature, Position: newPosition}

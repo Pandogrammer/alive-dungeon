@@ -6,7 +6,7 @@ import (
 )
 
 func TestCreation(t *testing.T) {
-	request := CreationRequest{Width: 2, Height: 5}
+	request := CreationEvent{Width: 2, Height: 5}
 
 	result := Create(request)
 
@@ -15,16 +15,16 @@ func TestCreation(t *testing.T) {
 }
 
 func TestCreationWithWalls(t *testing.T) {
-	request := CreationRequest{Width: 3, Height: 3, Walls: []Position{{1, 1}}}
+	request := CreationEvent{Width: 3, Height: 3, Walls: []Position{{1, 3}}}
 	world := Create(request)
 
-	assert.Equal(t, Wall, world.Cells[1][1])
+	assert.Equal(t, Wall, world.Cells[3][1])
 }
 
 func TestAddWall(t *testing.T) {
-	request := CreationRequest{Width: 3, Height: 3}
+	request := CreationEvent{Width: 3, Height: 3}
 	world := Create(request)
-	world.AddWall(Position{1, 1})
+	world.AddWall(Position{1, 2})
 
-	assert.Equal(t, Wall, world.Cells[1][1])
+	assert.Equal(t, Wall, world.Cells[2][1])
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreate(t *testing.T) {
-	world := w.Create(w.CreationRequest{Width: 3, Height: 3})
+	world := w.Create(w.CreationEvent{Width: 3, Height: 3})
 
 	game := Create(world)
 
@@ -16,7 +16,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestAddCreature(t *testing.T) {
-	world := w.Create(w.CreationRequest{Width: 3, Height: 3})
+	world := w.Create(w.CreationEvent{Width: 3, Height: 3})
 	creature := SpawnedCreature{c.Creature{}, w.Position{X: 2, Y: 3}}
 	game := Create(world)
 
