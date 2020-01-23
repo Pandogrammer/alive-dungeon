@@ -18,19 +18,8 @@ func init() {
 	game = g.Create(world)
 }
 
-func TestMoveUp(t *testing.T) {
-	//given a spawned creature
-	spawnedCreature := g.SpawnedCreature{Creature: creature, Position: w.Position{X: 2, Y: 2}}
-	request := MoveRequest{SpawnedCreature: spawnedCreature, Direction: Up}
-
-	//when move
-	spawnedCreature = Move(request)
-
-	//then creature is moved
-	assert.Equal(t, w.Position{X: 2, Y: 1}, spawnedCreature.Position)
-}
-
 func TestMovement(t *testing.T) {
+	//given a creature and a movement request
 	spawnedCreature := g.SpawnedCreature{Creature: creature, Position: w.Position{X: 2, Y: 2}}
 	movement := []struct {
 		request     MoveRequest
@@ -47,7 +36,10 @@ func TestMovement(t *testing.T) {
 	}
 
 	for _, move := range movement {
+		//when move
 		spawnedCreature = Move(move.request)
+
+		//then creature is moved
 		assert.Equal(t, move.newPosition, spawnedCreature.Position)
 	}
 
