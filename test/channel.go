@@ -15,36 +15,54 @@ const (
 )
 
 func main() {
-	actions := make(chan Action, 1)
-	state := make(chan int, 1)
+	actions := make(chan Action)
+	state := make(chan int)
 	initialState := 0
 
 	go process(initialState, actions, state)
-	go sender(actions)
+	go sender(actions, Increment)
+	go sender(actions, Decrement)
+	go sender(actions, Increment)
+	go sender(actions, Decrement)
 	go input(actions)
 
-	receiver(state)
+	output(state)
 }
 
 func input(actions chan Action) {
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		message, _ := reader.ReadString('\n')
-		if message == "x\n" {
+		if message == "s\n" {
+			actions <- Increment
+		}
+		if message == "d\n" {
 			actions <- Decrement
 		}
 	}
 }
 
-func receiver(state chan int) {
+func output(state <-chan int) {
+	var counter = 0
 	for {
-		fmt.Println(<-state)
+		newState := <-state
+		fmt.Print("Actual state: ")
+		fmt.Println(newState)
+		switch newState {
+		default:
+			counter++
+			if counter > 3 {
+				fmt.Print("Last state: ")
+				fmt.Println(newState)
+				counter = 0
+			}
+		}
 	}
 }
 
-func sender(actions chan Action) {
+func sender(actions chan Action, action Action) {
 	for {
-		actions <- Increment
+		actions <- action
 		time.Sleep(time.Second)
 	}
 }
