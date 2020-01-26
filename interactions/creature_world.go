@@ -12,34 +12,27 @@ const (
 	Error
 )
 
-func Movement(world w.World, creature c.Creature, movement c.Move) Result {
+func Movement(creature c.Creature, world w.World, creatures []c.Creature, movement c.Move) Result {
 	var position = creature.Position
+	var newPos = c.Position{}
 	switch movement.Direction {
 	case c.Right:
-		var newPos = c.Position{position.X + 1, position.Y}
-		if collision(newPos, world){
-			return Error
-		}
+		newPos = c.Position{position.X + 1, position.Y}
 	case c.Left:
-		var newPos = c.Position{position.X - 1, position.Y}
-		if collision(newPos, world){
-			return Error
-		}
+		newPos = c.Position{position.X - 1, position.Y}
 	case c.Up:
-		var newPos = c.Position{position.X, position.Y - 1}
-		if collision(newPos, world){
-			return Error
-		}
+		newPos = c.Position{position.X, position.Y - 1}
 	case c.Down:
-		var newPos = c.Position{position.X, position.Y + 1}
-		if collision(newPos, world){
-			return Error
-		}
+		newPos = c.Position{position.X, position.Y + 1}
+	}
+
+	if collision(newPos, world, creatures) {
+		return Error
 	}
 	return Success
 }
 
-func collision(position c.Position, world w.World) bool {
+func collision(position c.Position, world w.World, creatures []c.Creature) bool {
 	if position.X < 0 || position.X == len(world.Cells[0]){
 		return true
 	}
@@ -48,6 +41,11 @@ func collision(position c.Position, world w.World) bool {
 	}
 	if world.CellAt(position.X, position.Y) == w.Wall {
 		return true
+	}
+	for _, c := range creatures {
+		if c.Position == position {
+			return true
+		}
 	}
 
 	return false

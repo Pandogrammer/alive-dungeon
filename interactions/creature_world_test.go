@@ -26,7 +26,7 @@ func TestMovement(t *testing.T) {
 	}
 
 	for _, test := range movement {
-		var result = Movement(test.world, test.creature, test.move)
+		var result = Movement(test.creature, test.world, nil, test.move)
 
 		assert.Equal(t, test.result, result)
 	}
