@@ -12,7 +12,12 @@ const (
 	Error
 )
 
-func Movement(creature c.Creature, world w.World, creatures []c.Creature, movement c.Move) Result {
+type World interface {
+	OutOfBounds(position c.Position) bool
+	CellAt(x int, y int) w.Cell
+}
+
+func Movement(creature c.Creature, world World, creatures []c.Creature, movement c.Move) Result {
 	var position = creature.Position
 	var newPos = c.Position{}
 	switch movement.Direction {
@@ -32,11 +37,8 @@ func Movement(creature c.Creature, world w.World, creatures []c.Creature, moveme
 	return Success
 }
 
-func collision(position c.Position, world w.World, creatures []c.Creature) bool {
-	if position.X < 0 || position.X == len(world.Cells[0]) {
-		return true
-	}
-	if position.Y < 0 || position.Y == len(world.Cells) {
+func collision(position c.Position, world World, creatures []c.Creature) bool {
+	if world.OutOfBounds(position) {
 		return true
 	}
 	if world.CellAt(position.X, position.Y) == w.Wall {
@@ -50,3 +52,4 @@ func collision(position c.Position, world w.World, creatures []c.Creature) bool 
 
 	return false
 }
+
