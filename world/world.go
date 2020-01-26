@@ -1,7 +1,5 @@
 package world
 
-import c "alive-dungeon/creature"
-
 type Cell int
 
 const (
@@ -18,7 +16,7 @@ type Position struct {
 	Y int
 }
 
-func (w World) OutOfBounds(position c.Position) bool {
+func (w World) OutOfBounds(position Position) bool {
 	if position.X < 0 || position.X == w.Width() || position.Y < 0 || position.Y == w.Height() {
 		return true
 	}

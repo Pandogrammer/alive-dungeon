@@ -12,24 +12,26 @@ const (
 	Error
 )
 
-type World interface {
-	OutOfBounds(position c.Position) bool
-	CellAt(x int, y int) w.Cell
-}
-
-func Movement(creature c.Creature, world World, creatures []c.Creature, movement c.Move) Result {
+func Movement(creature c.Creature, world w.World, creatures []c.Creature, movement c.Move) Result {
 	var position = creature.Position
-	var newPos = c.Position{}
+	var newX int
+	var newY int
 	switch movement.Direction {
 	case c.Right:
-		newPos = c.Position{position.X + 1, position.Y}
+		newX = position.X+ 1
+		newY = position.Y
 	case c.Left:
-		newPos = c.Position{position.X - 1, position.Y}
+		newX = position.X - 1
+		newY = position.Y
 	case c.Up:
-		newPos = c.Position{position.X, position.Y - 1}
+		newX = position.X
+		newY = position.Y - 1
 	case c.Down:
-		newPos = c.Position{position.X, position.Y + 1}
+		newX = position.X
+		newY = position.Y + 1
 	}
+
+	var newPos = c.Position{newX, newY}
 
 	if collision(newPos, world, creatures) {
 		return Error
@@ -37,8 +39,10 @@ func Movement(creature c.Creature, world World, creatures []c.Creature, movement
 	return Success
 }
 
-func collision(position c.Position, world World, creatures []c.Creature) bool {
-	if world.OutOfBounds(position) {
+
+
+func collision(position c.Position, world w.World, creatures []c.Creature) bool {
+	if world.OutOfBounds(w.Position(position)) {
 		return true
 	}
 	if world.CellAt(position.X, position.Y) == w.Wall {
@@ -52,4 +56,3 @@ func collision(position c.Position, world World, creatures []c.Creature) bool {
 
 	return false
 }
-

@@ -82,7 +82,7 @@ func printMessage(message string) {
 
 func process(creatureId int, states chan State, movement <-chan c.Direction, messages chan<- string) {
 	for {
-		var message = "["+strconv.Itoa(creatureId)+"] "
+		var message = "[" + strconv.Itoa(creatureId) + "] "
 		var state = <-states
 		var direction = <-movement
 		move := c.Move{Direction: direction}

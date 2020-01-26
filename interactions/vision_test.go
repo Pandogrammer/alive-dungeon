@@ -12,16 +12,11 @@ var creature = c.Creature{}
 var world = w.World{}
 var state = g.State{}
 
-type Position struct {
-	X int
-	Y int
-}
-
 func TestVision(t *testing.T) {
 	givenAWorld()
 
 	var result = Vision(creature, state)
-	var expected = []Position{
+	var expected = []c.Position{
 		{X: 0, Y: 2},
 		{X: 1, Y: 1},
 		{X: 1, Y: 2},
@@ -40,14 +35,14 @@ func TestVision(t *testing.T) {
 	assert.Equal(t, expected, result)
 }
 
-func Vision(creature c.Creature, s g.State) []Position {
+func Vision(creature c.Creature, s g.State) []c.Position {
 	var distance = 2
 	var position = creature.Position
 	return positionsInSight(position, distance)
 }
 
-func positionsInSight(position c.Position, distance int) []Position {
-	var vision []Position
+func positionsInSight(position c.Position, distance int) []c.Position {
+	var vision []c.Position
 
 	var j = 0
 	var minX = position.X - distance
@@ -55,14 +50,14 @@ func positionsInSight(position c.Position, distance int) []Position {
 	for i := minX; i <= maxX; i++ {
 		for y := -j; y < 0; y++ {
 			var posY = position.Y + y
-			vision = append(vision, Position{X: i, Y: posY})
+			vision = append(vision, c.Position{X: i, Y: posY})
 		}
 
-		vision = append(vision, Position{X: i, Y: position.Y})
+		vision = append(vision, c.Position{X: i, Y: position.Y})
 
 		for y := j; y > 0; y-- {
 			var posY = position.Y + y
-			vision = append(vision, Position{X: i, Y: posY})
+			vision = append(vision, c.Position{X: i, Y: posY})
 		}
 
 		if i < position.X {
