@@ -1,4 +1,4 @@
-package main
+package game
 
 import (
 	c "alive-dungeon/creature"
@@ -6,6 +6,7 @@ import (
 	w "alive-dungeon/world"
 	"fmt"
 	"math/rand"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -26,16 +27,20 @@ func TestGame(t *testing.T) {
 
 	state := make(chan State, 1)
 	state <- initialState
-	actions := make(chan c.Direction)
-	messages := make(chan string, 1)
-	messages <- Print(initialState.World, initialState.Creatures)
 
-	go input(actions)
-	go process(0, state, actions, messages)
-	go process(1, state, actions, messages)
-	go process(2, state, actions, messages)
+	connections := []Connection{
+		{0, state, make(chan c.Direction), make(chan string)},
+		{1, state, make(chan c.Direction), make(chan string)},
+		{2, state, make(chan c.Direction), make(chan string)},
+	}
 
-	output(messages)
+	for _, con := range connections {
+		go input(con.Actions)
+		go process(con.Id, state, con.Actions, con.Messages)
+		go output(con.Messages)
+	}
+
+	select {}
 }
 
 func input(actions chan c.Direction) {
@@ -77,7 +82,7 @@ func printMessage(message string) {
 
 func process(creatureId int, states chan State, movement <-chan c.Direction, messages chan<- string) {
 	for {
-		var message = ""
+		var message = "["+strconv.Itoa(creatureId)+"] "
 		var state = <-states
 		var direction = <-movement
 		move := c.Move{Direction: direction}
@@ -128,8 +133,8 @@ func Print(world w.World, creatures []c.Creature) string {
 			}
 		}
 	}
-	for _, creature := range creatures {
-		message[creature.Position.Y][creature.Position.X] = "r"
+	for id, creature := range creatures {
+		message[creature.Position.Y][creature.Position.X] = strconv.Itoa(id)
 	}
 
 	var result = ""

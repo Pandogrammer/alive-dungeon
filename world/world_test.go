@@ -19,7 +19,6 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, 5, len(world.Cells))
 }
 
-
 func TestModify(t *testing.T) {
 	var message = Modify{Position{1, 1}, Wall}
 

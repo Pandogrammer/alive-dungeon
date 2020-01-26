@@ -1,6 +1,5 @@
 package creature
 
-
 type Create struct {
 	Position Position
 }

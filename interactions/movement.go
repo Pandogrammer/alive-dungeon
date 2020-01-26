@@ -33,10 +33,10 @@ func Movement(creature c.Creature, world w.World, creatures []c.Creature, moveme
 }
 
 func collision(position c.Position, world w.World, creatures []c.Creature) bool {
-	if position.X < 0 || position.X == len(world.Cells[0]){
+	if position.X < 0 || position.X == len(world.Cells[0]) {
 		return true
 	}
-	if position.Y < 0 || position.Y == len(world.Cells){
+	if position.Y < 0 || position.Y == len(world.Cells) {
 		return true
 	}
 	if world.CellAt(position.X, position.Y) == w.Wall {
@@ -50,4 +50,3 @@ func collision(position c.Position, world w.World, creatures []c.Creature) bool 
 
 	return false
 }
-
