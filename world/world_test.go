@@ -5,26 +5,25 @@ import (
 	"testing"
 )
 
-func TestCreation(t *testing.T) {
-	request := CreationEvent{Width: 2, Height: 5}
+var world = World{}
 
-	result := Create(request)
-
-	assert.Equal(t, 2, len(result.Cells))
-	assert.Equal(t, 5, len(result.Cells[0]))
+func init() {
+	world = create(10, 10)
 }
 
-func TestCreationWithWalls(t *testing.T) {
-	request := CreationEvent{Width: 3, Height: 3, Walls: []Position{{1, 3}}}
-	world := Create(request)
+func TestCreate(t *testing.T) {
+	var message = Create{5, 5}
 
-	assert.Equal(t, Wall, world.Cells[3][1])
+	world = New(message)
+
+	assert.Equal(t, 5, len(world.Cells))
 }
 
-func TestAddWall(t *testing.T) {
-	request := CreationEvent{Width: 3, Height: 3}
-	world := Create(request)
-	world.AddWall(Position{1, 2})
 
-	assert.Equal(t, Wall, world.Cells[2][1])
+func TestModify(t *testing.T) {
+	var message = Modify{Position{1, 1}, Wall}
+
+	world = world.Update(message)
+
+	assert.Equal(t, Wall, world.Cells[1][1])
 }
