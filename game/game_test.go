@@ -68,15 +68,15 @@ func output(messages <-chan string) {
 }
 
 func printMessage(message string) {
-	for i := 0; i < 10; i++ {
-		fmt.Print("~")
-	}
+	//for i := 0; i < 10; i++ {
+	//	fmt.Print("~")
+	//}
 	fmt.Println()
 	fmt.Print(message)
 	fmt.Println()
-	for i := 0; i < 10; i++ {
-		fmt.Print("~")
-	}
+	//for i := 0; i < 10; i++ {
+	//	fmt.Print("~")
+	//}
 	fmt.Println()
 }
 
@@ -89,11 +89,12 @@ func process(creatureId int, states chan State, movement <-chan c.Direction, mes
 		var result = i.Movement(state.Creatures[creatureId], state.World, state.Creatures, move)
 		if result == i.Success {
 			state.Creatures[creatureId] = state.Creatures[creatureId].Update(move)
-			message += "Te moviste hacia " + parseDirection(direction)
+			message += "Te moviste hacia " + parseDirection(direction) +"\n"
 		} else {
-			message += "No pudiste moverte hacia " + parseDirection(direction)
+			message += "No pudiste moverte hacia " + parseDirection(direction) +"\n"
 		}
-		message += "\n\n" + Print(state.World, state.Creatures)
+
+		message += i.FullVision(state.Creatures[creatureId], i.State(state), 5).ToString()
 		messages <- message
 		states <- state
 	}

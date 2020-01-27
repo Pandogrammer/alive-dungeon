@@ -17,7 +17,7 @@ type Position struct {
 }
 
 func (w World) OutOfBounds(position Position) bool {
-	if position.X < 0 || position.X == w.Width() || position.Y < 0 || position.Y == w.Height() {
+	if position.X < 0 || position.X >= w.Width() || position.Y < 0 || position.Y >= w.Height() {
 		return true
 	}
 	return false
@@ -34,4 +34,3 @@ func (w World) Width() int {
 func (w World) CellAt(x int, y int) Cell {
 	return w.Cells[y][x]
 }
-
