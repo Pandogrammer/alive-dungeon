@@ -29,11 +29,11 @@ func (r Representation) ToString() string {
 	case Wall:
 		return "#"
 	case Empty:
-		return "·"
+		return " "
 	case Creature:
 		return "r"
 	case Void:
-		return "%"
+		return "ﾵ"
 	}
 	return "X"
 }

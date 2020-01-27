@@ -4,48 +4,75 @@ import (
 	c "alive-dungeon/creature"
 	i "alive-dungeon/interactions"
 	w "alive-dungeon/world"
+	"bufio"
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"testing"
 	"time"
 )
 
-func TestGame(t *testing.T) {
-	var world = w.New(w.Create{50, 50})
-	world.Update(w.Modify{Position: w.Position{5, 5}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{2, 5}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{5, 3}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{4, 2}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{11, 5}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{39, 30}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{20, 15}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{4, 34}, NewType: w.Wall})
-	world.Update(w.Modify{Position: w.Position{44, 20}, NewType: w.Wall})
 
-	var initialState = State{world,
-		[]c.Creature{
-			c.New(c.Create{Position: c.Position{25, 25}}),
-			c.New(c.Create{Position: c.Position{15, 15}}),
-			c.New(c.Create{Position: c.Position{35, 35}}),
-		}}
+func TestGame(t *testing.T) {
+	var world = w.New(w.Create{20, 20})
+	world.Update(w.Modify{Position: w.Position{1, 5}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{2, 5}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{3, 3}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{4, 2}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{5, 18}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{6, 9}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{7, 13}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{8, 5}, NewType: w.Wall})
+
+	var creatures = []c.Creature{
+		c.New(c.Create{Position: c.Position{1, 5}}),
+		//c.New(c.Create{Position: c.Position{2, 10}}),
+		//c.New(c.Create{Position: c.Position{3, 15}}),
+		//c.New(c.Create{Position: c.Position{4, 15}}),
+		//c.New(c.Create{Position: c.Position{5, 15}}),
+		//c.New(c.Create{Position: c.Position{6, 15}}),
+		//c.New(c.Create{Position: c.Position{7, 15}}),
+		//c.New(c.Create{Position: c.Position{8, 15}}),
+		//c.New(c.Create{Position: c.Position{9, 15}}),
+	}
+	var initialState = State{world,creatures}
 
 	state := make(chan State, 1)
 	state <- initialState
 
-	connections := []Connection{
-		{0, state, make(chan c.Direction), make(chan string)},
-		{1, state, make(chan c.Direction), make(chan string)},
-		{2, state, make(chan c.Direction), make(chan string)},
+	var connections []Connection
+	for i, _ := range creatures {
+		connections = append(connections, Connection{i, state, make(chan c.Direction), make(chan string)})
 	}
 
 	for _, con := range connections {
-		go input(con.Actions)
+		//go input(con.Actions)
+		go humanInput(con.Actions)
 		go process(con.Id, state, con.Actions, con.Messages)
 		go output(con.Messages)
 	}
 
 	select {}
+}
+
+func humanInput(actions chan c.Direction) {
+	reader := bufio.NewReader(os.Stdin)
+	for {
+		text, _ := reader.ReadString('\n')
+		var action, _ = strconv.Atoi(text)
+		switch action {
+		case 0:
+			actions <- c.Up
+		case 1:
+			actions <- c.Down
+		case 2:
+			actions <- c.Left
+		case 3:
+			actions <- c.Right
+		}
+		time.Sleep(time.Second)
+	}
 }
 
 func input(actions chan c.Direction) {
@@ -99,7 +126,7 @@ func process(creatureId int, states chan State, movement <-chan c.Direction, mes
 			message += "No pudiste moverte hacia " + parseDirection(direction) +"\n"
 		}
 
-		message += i.FullVision(state.Creatures[creatureId], i.State(state), 7).ToString()
+		message += i.FullVision(state.Creatures[creatureId], i.State(state), 10).ToString()
 		messages <- message
 		states <- state
 	}
