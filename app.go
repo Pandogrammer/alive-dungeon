@@ -25,14 +25,14 @@ func main() {
 
 	var creatures = []c.Creature{
 		c.New(c.Create{Position: c.Position{1, 5}}),
-		//c.New(c.Create{Position: c.Position{2, 10}}),
-		//c.New(c.Create{Position: c.Position{3, 15}}),
-		//c.New(c.Create{Position: c.Position{4, 15}}),
-		//c.New(c.Create{Position: c.Position{5, 15}}),
-		//c.New(c.Create{Position: c.Position{6, 15}}),
-		//c.New(c.Create{Position: c.Position{7, 15}}),
-		//c.New(c.Create{Position: c.Position{8, 15}}),
-		//c.New(c.Create{Position: c.Position{9, 15}}),
+		c.New(c.Create{Position: c.Position{2, 10}}),
+		c.New(c.Create{Position: c.Position{3, 15}}),
+		c.New(c.Create{Position: c.Position{4, 15}}),
+		c.New(c.Create{Position: c.Position{5, 15}}),
+		c.New(c.Create{Position: c.Position{6, 15}}),
+		c.New(c.Create{Position: c.Position{7, 15}}),
+		c.New(c.Create{Position: c.Position{8, 15}}),
+		c.New(c.Create{Position: c.Position{9, 15}}),
 	}
 	var initialState = g.State{world,creatures}
 
@@ -44,14 +44,36 @@ func main() {
 		connections = append(connections, g.Connection{i, state, make(chan c.Direction), make(chan string)})
 	}
 
-	for _, con := range connections {
-		//go input(con.Actions)
-		go humanInput(con.Actions)
-		go process(con.Id, state, con.Actions, con.Messages)
-		go output(con.Messages)
+	for i, con := range connections {
+		if i == 0 {
+			go humanInput(con.Actions)
+			go process(con.Id, state, con.Actions, con.Messages)
+			go output(con.Messages)
+		} else {
+			go input(con.Actions)
+			go processIA(con.Id, state, con.Actions)
+		}
 	}
 
 	select {}
+}
+
+func processIA(creatureId int, states chan g.State, movement chan c.Direction) {
+	for {
+		var message = "[" + strconv.Itoa(creatureId) + "] "
+		var state = <-states
+		var direction = <-movement
+		move := c.Move{Direction: direction}
+		var result = i.Movement(state.Creatures[creatureId], state.World, state.Creatures, move)
+		if result == i.Success {
+			state.Creatures[creatureId] = state.Creatures[creatureId].Update(move)
+			message += "Te moviste hacia " + parseDirection(direction) +"\n"
+		} else {
+			message += "No pudiste moverte hacia " + parseDirection(direction) +"\n"
+		}
+
+		states <- state
+	}
 }
 
 func humanInput(actions chan c.Direction) {
@@ -110,23 +132,23 @@ func printMessage(message string) {
 }
 
 func process(creatureId int, states chan g.State, movement <-chan c.Direction, messages chan<- string) {
-	for {
-		var message = "[" + strconv.Itoa(creatureId) + "] "
-		var state = <-states
-		var direction = <-movement
-		move := c.Move{Direction: direction}
-		var result = i.Movement(state.Creatures[creatureId], state.World, state.Creatures, move)
-		if result == i.Success {
-			state.Creatures[creatureId] = state.Creatures[creatureId].Update(move)
-			message += "Te moviste hacia " + parseDirection(direction) +"\n"
-		} else {
-			message += "No pudiste moverte hacia " + parseDirection(direction) +"\n"
-		}
+			for {
+				var message = "[" + strconv.Itoa(creatureId) + "] "
+				var state = <-states
+				var direction = <-movement
+				move := c.Move{Direction: direction}
+				var result = i.Movement(state.Creatures[creatureId], state.World, state.Creatures, move)
+				if result == i.Success {
+					state.Creatures[creatureId] = state.Creatures[creatureId].Update(move)
+					message += "Te moviste hacia " + parseDirection(direction) +"\n"
+				} else {
+					message += "No pudiste moverte hacia " + parseDirection(direction) +"\n"
+				}
 
-		message += i.FullVision(state.Creatures[creatureId], i.State(state), 10).ToString()
-		messages <- message
-		states <- state
-	}
+				message += i.FullVision(state.Creatures[creatureId], i.State(state), 10).ToString()
+				messages <- message
+				states <- state
+			}
 }
 
 func parseDirection(direction c.Direction) string {
