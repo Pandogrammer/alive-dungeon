@@ -2,5 +2,29 @@
 	"ImportPath": "alive-dungeon",
 	"GoVersion": "go1.13",
 	"GodepVersion": "v80",
-	"Deps": []
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/davecgh/go-spew/spew",
+			"Comment": "v1.1.1-1-gd8f796a",
+			"Rev": "d8f796af33cc11cb798c1aaeb27a4ebc5099927d"
+		},
+		{
+			"ImportPath": "github.com/pmezard/go-difflib/difflib",
+			"Comment": "v1.0.0-4-g5d4384e",
+			"Rev": "5d4384ee4fb2527b0a1256a821ebfc92f91efefc"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/assert",
+			"Comment": "v1.4.0-38-g858f37f",
+			"Rev": "858f37ff9bc48070cde7f2c2895dbe0db1ad9326"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Comment": "v2.2.7",
+			"Rev": "1f64d6156d11335c3f22d9330b0ad14fc1e789ce"
+		}
+	]
 }
