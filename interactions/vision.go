@@ -25,7 +25,7 @@ type Representation int
 func (r Representation) ToString() string {
 	switch r {
 	case Fog:
-		return "~"
+		return "░"
 	case Wall:
 		return "#"
 	case Empty:
@@ -85,7 +85,7 @@ func FullVision(creature c.Creature, state State, distance int) View {
 }
 
 func IsOnSight(position c.Position, pos c.Position, distance int) bool {
-	return math.Sqrt(math.Pow(float64(position.X-pos.X), 2)+math.Pow(float64(position.Y-pos.Y), 2)) <= float64(distance)
+	return math.Sqrt(math.Pow(float64(position.X-pos.X), 2)+math.Pow(float64(position.Y-pos.Y), 2)) < float64(distance)
 }
 
 func Vision(creature c.Creature, state State, distance int) Sight {

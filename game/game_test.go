@@ -12,17 +12,22 @@ import (
 )
 
 func TestGame(t *testing.T) {
-	var world = w.New(w.Create{6, 6})
+	var world = w.New(w.Create{50, 50})
 	world.Update(w.Modify{Position: w.Position{5, 5}, NewType: w.Wall})
 	world.Update(w.Modify{Position: w.Position{2, 5}, NewType: w.Wall})
 	world.Update(w.Modify{Position: w.Position{5, 3}, NewType: w.Wall})
 	world.Update(w.Modify{Position: w.Position{4, 2}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{11, 5}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{39, 30}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{20, 15}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{4, 34}, NewType: w.Wall})
+	world.Update(w.Modify{Position: w.Position{44, 20}, NewType: w.Wall})
 
 	var initialState = State{world,
 		[]c.Creature{
-			c.New(c.Create{Position: c.Position{1, 1}}),
-			c.New(c.Create{Position: c.Position{2, 2}}),
-			c.New(c.Create{Position: c.Position{3, 3}}),
+			c.New(c.Create{Position: c.Position{25, 25}}),
+			c.New(c.Create{Position: c.Position{15, 15}}),
+			c.New(c.Create{Position: c.Position{35, 35}}),
 		}}
 
 	state := make(chan State, 1)
@@ -94,7 +99,7 @@ func process(creatureId int, states chan State, movement <-chan c.Direction, mes
 			message += "No pudiste moverte hacia " + parseDirection(direction) +"\n"
 		}
 
-		message += i.FullVision(state.Creatures[creatureId], i.State(state), 5).ToString()
+		message += i.FullVision(state.Creatures[creatureId], i.State(state), 7).ToString()
 		messages <- message
 		states <- state
 	}
