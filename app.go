@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 func determineListenAddress() (string, error) {
-	port := "5000"
+	port := "8080"
 	if port == "" {
 		return "", fmt.Errorf("$PORT not set")
 	}
