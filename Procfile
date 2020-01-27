@@ -1,1 +1,1 @@
-web: prueba
+web: bin/go-getting-started
