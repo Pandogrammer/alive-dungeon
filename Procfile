@@ -1,1 +1,1 @@
-web: prueba
+web: bin/prueba
