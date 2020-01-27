@@ -4,6 +4,6 @@
 
 
 #### Push a heroku
-- ``godep save -r``
+- ``godep save ./...``
 - ``git add -A Godeps``
 - ``git commit -m Godeps``
