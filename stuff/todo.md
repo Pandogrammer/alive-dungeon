@@ -30,3 +30,7 @@
 - [ ] Conexiones (socket)
     - [ ] Jugador
     - [ ] IA
+    
+    
+- [ ] Remodelar el sistema
+   - [ ] Romper las dependencias
