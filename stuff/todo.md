@@ -2,7 +2,7 @@
 
 ---
 ### Mundo
-- [ ] Armar sistema de tiempo
+- [x] Armar sistema de tiempo
  
  
 - [ ] Armar sistema de comida
@@ -10,10 +10,10 @@
   - [ ] Que desaparezca por tiempo?
 
 
-- [ ] Armar sistema de vida  
-  - [ ] Vida inicial
+- [x] Armar sistema de vida  
+  - [x] Vida inicial
   - [ ] Que baje por tiempo
-  - [ ] Que baje al recibir daño
+  - [x] Que baje al recibir daño
   - [ ] Que suba al comer
   
   

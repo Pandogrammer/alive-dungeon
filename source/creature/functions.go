@@ -9,7 +9,7 @@ func (c Creature) Update(message interface{}) Creature {
 }
 
 func New(message Create) Creature {
-	return Creature{message.Position}
+	return Creature{Position: message.Position}
 }
 
 func (c Creature) move(move Move) Creature {

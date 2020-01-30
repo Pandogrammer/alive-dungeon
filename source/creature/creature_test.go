@@ -33,3 +33,4 @@ func TestMove(t *testing.T) {
 	assert.Equal(t, Position{5, 4}, up.Position)
 	assert.Equal(t, Position{5, 6}, down.Position)
 }
+

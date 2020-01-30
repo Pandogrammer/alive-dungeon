@@ -1,10 +1,10 @@
 package main
 
 import (
-	c "alive-dungeon/creature"
-	g "alive-dungeon/game"
-	i "alive-dungeon/interactions"
-	w "alive-dungeon/world"
+	c "alive-dungeon/source/creature"
+	g "alive-dungeon/source/game"
+	i "alive-dungeon/source/game/interactions"
+	w "alive-dungeon/source/world"
 	"bufio"
 	"fmt"
 	"math/rand"

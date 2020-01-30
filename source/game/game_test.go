@@ -1,9 +1,9 @@
 package game
 
 import (
-	c "alive-dungeon/creature"
-	i "alive-dungeon/interactions"
-	w "alive-dungeon/world"
+	c "alive-dungeon/source/creature"
+	i "alive-dungeon/source/game/interactions"
+	w "alive-dungeon/source/world"
 	"bufio"
 	"fmt"
 	"math/rand"

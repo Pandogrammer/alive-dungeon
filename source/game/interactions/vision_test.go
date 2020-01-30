@@ -1,11 +1,16 @@
 package interactions
 
 import (
-	c "alive-dungeon/creature"
-	w "alive-dungeon/world"
+	c "alive-dungeon/source/creature"
+	w "alive-dungeon/source/world"
 	"fmt"
 	"testing"
 )
+
+type World struct {
+	Width int
+	Height int
+}
 
 func TestFullVision(t *testing.T) {
 	var world = w.New(w.Create{

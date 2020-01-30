@@ -1,8 +1,8 @@
 package game
 
 import (
-	c "alive-dungeon/creature"
-	w "alive-dungeon/world"
+	c "alive-dungeon/source/creature"
+	w "alive-dungeon/source/world"
 )
 
 type State struct {
